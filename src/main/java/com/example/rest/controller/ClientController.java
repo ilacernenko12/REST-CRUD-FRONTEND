@@ -57,4 +57,9 @@ public class ClientController {
                 ? new ResponseEntity<>(HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
+
+    @GetMapping (value = "/get_number")
+    public String getNumber (@RequestParam (name = "email") String email) {
+        return clientService.getByNumber(email);
+    }
 }

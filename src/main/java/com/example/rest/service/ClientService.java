@@ -11,8 +11,6 @@ import java.util.concurrent.atomic.AtomicLong;
 @Service
 public class ClientService {
 
-    /*private static final Map<Long, Client> CLIENT_REPOSITORY_MAP = new HashMap<>();*/
-    private static final AtomicLong CLIENT_ID_HOLDER = new AtomicLong();
     private final ClientRepository clientRepository;
 
     @Autowired
@@ -31,6 +29,7 @@ public class ClientService {
     public ClientModel read(long id) {
         return clientRepository.findById(id).orElse(null);
     }
+
     public boolean update(ClientModel clientModel) {
         if (clientRepository.findById(clientModel.getId()).isPresent()) {
             clientRepository.save(clientModel);
@@ -41,5 +40,20 @@ public class ClientService {
 
     public boolean delete(long id) {
         return clientRepository.findById(id) != null;
+    }
+
+    public String getByNumber(String email) {
+        ClientModel byEmail = clientRepository.findByEmail(email);
+        return byEmail == null ? "" : byEmail.getPhone();
+    }
+
+    public ClientModel save(ClientModel clientModel) {
+        ClientModel cm = null;
+        try {
+           cm = clientRepository.save(clientModel);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return cm;
     }
 }

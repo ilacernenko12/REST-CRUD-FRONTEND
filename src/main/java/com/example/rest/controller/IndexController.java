@@ -1,7 +1,7 @@
 package com.example.rest.controller;
 
 import com.example.rest.model.ClientModel;
-import com.example.rest.repo.ClientRepository;
+import com.example.rest.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,7 +13,7 @@ import org.springframework.web.servlet.view.RedirectView;
 @RequestMapping("index")
 public class IndexController {
     @Autowired
-    ClientRepository clientRepository;
+    ClientService clientService;
 
     @PostMapping
     public RedirectView setData(@RequestParam String name,
@@ -23,8 +23,11 @@ public class IndexController {
         clientModel.setName(name);
         clientModel.setEmail(email);
         clientModel.setPhone(phone);
-        clientRepository.save(clientModel);
-        return new RedirectView("/WelcomePage");
+        if (clientService.save(clientModel) != null) {
+            return new RedirectView("/welcomepage");
+        } else {
+            return new RedirectView("/");
+        }
     }
 
 }
