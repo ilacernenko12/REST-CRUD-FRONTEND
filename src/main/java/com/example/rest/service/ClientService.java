@@ -1,18 +1,45 @@
 package com.example.rest.service;
 
-import com.example.rest.model.Client;
+import com.example.rest.model.ClientModel;
+import com.example.rest.repo.ClientRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicLong;
 
-public interface ClientService {
+@Service
+public class ClientService {
 
-    void create (Client client);
+    /*private static final Map<Long, Client> CLIENT_REPOSITORY_MAP = new HashMap<>();*/
+    private static final AtomicLong CLIENT_ID_HOLDER = new AtomicLong();
+    private final ClientRepository clientRepository;
 
-    List<Client> readAll();
+    @Autowired
+    public ClientService(ClientRepository clientRepository) {
+        this.clientRepository = clientRepository;
+    }
 
-    Client read (int id);
+    public void create(ClientModel clientModel) {
+        clientRepository.save(clientModel);
+    }
 
-    boolean update (Client client, int id);
+    public List<ClientModel> readAll() {
+        return clientRepository.findAll();
+    }
 
-    boolean delete (int id);
+    public ClientModel read(long id) {
+        return clientRepository.findById(id).orElse(null);
+    }
+    public boolean update(ClientModel clientModel) {
+        if (clientRepository.findById(clientModel.getId()).isPresent()) {
+            clientRepository.save(clientModel);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean delete(long id) {
+        return clientRepository.findById(id) != null;
+    }
 }
