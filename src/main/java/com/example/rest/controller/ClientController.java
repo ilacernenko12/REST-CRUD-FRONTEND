@@ -60,6 +60,11 @@ public class ClientController {
 
     @GetMapping (value = "/get_number")
     public String getNumber (@RequestParam (name = "email") String email) {
-        return clientService.getByNumber(email);
+        return clientService.getNumberByEmail(email);
+    }
+
+    @GetMapping (value = "/get_email")
+    public String getEmail (@RequestParam (name = "number") String number) {
+        return clientService.getEmailByNumber(number);
     }
 }

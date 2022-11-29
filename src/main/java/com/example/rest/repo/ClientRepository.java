@@ -18,4 +18,5 @@ public interface ClientRepository extends JpaRepository<ClientModel,Long> {
     Optional<ClientModel> findLastRegistered();
 
     ClientModel findByEmail(String email);
+    ClientModel findByPhone(String phone);
 }

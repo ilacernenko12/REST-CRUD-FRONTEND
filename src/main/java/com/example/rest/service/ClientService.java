@@ -42,9 +42,14 @@ public class ClientService {
         return clientRepository.findById(id) != null;
     }
 
-    public String getByNumber(String email) {
+    public String getNumberByEmail(String email) {
         ClientModel byEmail = clientRepository.findByEmail(email);
         return byEmail == null ? "" : byEmail.getPhone();
+    }
+
+    public String getEmailByNumber(String phone) {
+        ClientModel byNumber = clientRepository.findByPhone(phone);
+        return byNumber == null ? "" : byNumber.getEmail();
     }
 
     public ClientModel save(ClientModel clientModel) {
