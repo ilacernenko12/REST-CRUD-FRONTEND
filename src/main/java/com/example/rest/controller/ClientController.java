@@ -1,6 +1,7 @@
 package com.example.rest.controller;
 
 import com.example.rest.model.ClientModel;
+import com.example.rest.repo.ClientRepository;
 import com.example.rest.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -66,5 +67,10 @@ public class ClientController {
     @GetMapping (value = "/get_email")
     public String getEmail (@RequestParam (name = "number") String number) {
         return clientService.getEmailByNumber(number);
+    }
+
+    @PostMapping("/set_android_data")
+    public ClientModel setAndroidData (@RequestBody ClientModel model) {
+        return clientService.save(model);
     }
 }
